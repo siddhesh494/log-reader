@@ -25,12 +25,18 @@ function App() {
 
   function readLogs(){
     const {keys, keyValues, data} = extractData(terminalContent)
-    // console.log("data", data)
     setSearchDropdown(map(keyValues, k => ({name: k.key, value: '', options: map(k.values, (i) => i.value)})))
     setUniqueKeys(map(keys, k => ({key: k, val: IMPORTANT_COLUMNS.indexOf(k) > -1})))
     setColumns(keys)
     setTableResult(data)
   }
+
+  function clearSearch(){
+    const {keyValues, data} = extractData(terminalContent)
+    setSearchDropdown(map(keyValues, k => ({name: k.key, value: '', options: map(k.values, (i) => i.value)})))
+    setTableResult(data)
+  }
+
 
   useEffect(() => {
     if(terminalContent) {
@@ -84,9 +90,6 @@ function App() {
 
   return (
     <div>
-      {/* <h1>
-        Log Reader
-      </h1> */}
     <div className="">
       <Terminal
         terminalContent={terminalContent}
@@ -109,7 +112,7 @@ function App() {
 
 
     {/* filter columns / lookup criteria */}
-    <div className='lookup-criteria'>
+    {uniqueKeys.length ? <div className='lookup-criteria'>
       <h3>Filter Columns</h3>
       {map(uniqueKeys, (item, id) => {
         return (
@@ -132,11 +135,22 @@ function App() {
           />
         )
       })}
-    </div>
+    </div> : null}
 
     {/* search section */}
-    <div className='search-section'>
+    {searchDropdown.length ? <div className='search-section'>
       <h3>Search</h3>
+      <Button 
+        style={{
+          "marginBottom": "10px"
+        }} 
+        variant="contained" 
+        onClick={() => {
+          clearSearch()
+        }}
+      >
+      Clear Search
+    </Button>
       <Grid container spacing={2}>
         {map(searchDropdown, (item, id) => {
           return (
@@ -152,7 +166,7 @@ function App() {
                     handleSearch(item.name, e.target.value)
                   }}
                 >
-                  {map(item.options, (i) => <MenuItem value={i}>{i}</MenuItem>)}
+                  {map(item.options, (i) => <MenuItem key={i} value={i}>{i}</MenuItem>)}
                 </Select>
               </FormControl>
             </Grid>
@@ -160,7 +174,7 @@ function App() {
         })}
       </Grid>
       
-    </div>
+    </div>: null}
 
 
     <div className='table-section'>

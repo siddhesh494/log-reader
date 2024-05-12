@@ -39,11 +39,15 @@ const TableViewers = ({
         </TableHead>
         <TableBody>
           {map(tableResult, (row, r) => (
-            <StyledTableRow key={`${row.name}-${r}`}>
+            <StyledTableRow key={`${row.name}-${r}`} 
+              
+            >
               {map(columns, (k) => {
                 return (
-                  <StyledTableCell key={`${row.name}-${k}`} align="left">
-                    {JSON.stringify(row[k])}
+                  <StyledTableCell sx={{
+                    maxWidth: 600
+                  }} key={`${row.name}-${k}`} align="left">
+                    {JSON.stringify((row[k]))?.replace(/\\n|\\/g, " ")}
                   </StyledTableCell>
                 )
               })}
