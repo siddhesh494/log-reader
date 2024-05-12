@@ -36,6 +36,7 @@ function App() {
     if(terminalContent) {
       readLogs()
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [terminalContent])
 
   // set columns
