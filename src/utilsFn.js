@@ -6,14 +6,11 @@ export function extractData(fullText) {
     const jsonText = splitJSON((fullText));
     const { success, fail } = parseJSON(jsonText);
     const data = map(success, (i) => i.log)
-
+    console.log("fail", fail)
     // console.log("success", success)
-    // console.log("fail", fail)
     // const posted = {logs: success, failed: fail.join('\n'), type: 'extract'};
     // postMessage(posted);
     const {keys, keyValues} = extractKeysAndUniq(success);
-    console.log("keys", keys)
-    console.log("keyValues", keyValues)
     // posted.keys = keys;
     // posted.keyValues = keyValues;
     // postMessage(posted);

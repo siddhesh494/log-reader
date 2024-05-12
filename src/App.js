@@ -5,6 +5,7 @@ import { useState, useEffect } from "react"
 import { extractData } from './utilsFn';
 import { filter, map } from 'lodash';
 import { Button, Checkbox, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select } from '@mui/material';
+import { IMPORTANT_COLUMNS } from './constant';
 
 
 function App() {
@@ -26,7 +27,7 @@ function App() {
     const {keys, keyValues, data} = extractData(terminalContent)
     // console.log("data", data)
     setSearchDropdown(map(keyValues, k => ({name: k.key, value: '', options: map(k.values, (i) => i.value)})))
-    setUniqueKeys(map(keys, k => ({key: k, val: true})))
+    setUniqueKeys(map(keys, k => ({key: k, val: IMPORTANT_COLUMNS.indexOf(k) > -1})))
     setColumns(keys)
     setTableResult(data)
   }
